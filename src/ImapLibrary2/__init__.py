@@ -457,13 +457,13 @@ class ImapLibrary2(object):
         if cc:
             criteria += ['CC', '"%s"' % cc]
         if text:
-            criteria += ['TEXT', '"%s"' % text]
-        if subject:
-            criteria += ['SUBJECT']
+            criteria += ['TEXT', '"%s"' % text]     
         if status:
             criteria += [status]
         if not criteria:
             criteria = ['UNSEEN']
+        if subject:
+            criteria += ['SUBJECT']
         return criteria
 
     def _init_multipart_walk(self):
