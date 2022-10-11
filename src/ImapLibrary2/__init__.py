@@ -24,6 +24,7 @@ from email.header import decode_header
 from imaplib import IMAP4, IMAP4_SSL
 from re import findall
 from time import sleep, time
+
 try:
     from urllib.request import urlopen
 except ImportError:
@@ -31,7 +32,7 @@ except ImportError:
 from builtins import str as ustr
 from ImapLibrary2.version import get_version
 from ImapLibrary2.imap_proxy import IMAP4Proxy, IMAP4SSLProxy
-
+import os.path
 __version__ = get_version()
 
 
@@ -457,7 +458,7 @@ class ImapLibrary2(object):
         if cc:
             criteria += ['CC', '"%s"' % cc]
         if text:
-            criteria += ['TEXT', '"%s"' % text]     
+            criteria += ['TEXT', '"%s"' % text]
         if status:
             criteria += [status]
         if not criteria:
@@ -486,3 +487,36 @@ class ImapLibrary2(object):
         """Saves all existing emails to internal variable."""
         typ, mails = self._imap.uid('search', None, 'ALL')
         self._mails = mails[0].split()
+
+    def get_attachments_email (self, **kwargs) :
+        """Save attachments of email message on given ``email_index`` (overwrite if already exists).
+
+        Arguments:
+        - ``email_index``: An email index to identity the email message.
+        - ``target_folder`` : local folder for saving attachments to (needs to exist),
+            defaults to current directory if None
+
+        Examples:
+        | Get Attachments Email | INDEX | C:\\Users\\thuchet\\test
+        """
+        email_index = kwargs.pop('email_index', None)
+        target_folder = kwargs.pop('target_folder', None)
+        attachments = []
+        data = self._imap.uid('fetch', email_index, '(RFC822)')[1][0][1]
+        msg = message_from_bytes(data)
+
+        if target_folder is None:
+            target_folder = './'
+
+        for part in msg.walk():
+            content_maintype = part.get_content_maintype()
+            filename = None
+            if content_maintype != "multipart":
+                filename = part.get_filename()
+                if filename :
+                    filepath = os.path.join(target_folder, filename)
+                    fp = open(filepath, 'wb')
+                    fp.write(part.get_payload(decode=True))
+                    fp.close()
+                    attachments.append(str(filepath))
+        return attachments
