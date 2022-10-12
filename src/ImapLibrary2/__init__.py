@@ -488,7 +488,7 @@ class ImapLibrary2(object):
         typ, mails = self._imap.uid('search', None, 'ALL')
         self._mails = mails[0].split()
 
-    def get_attachments_email (self, **kwargs) :
+    def get_attachments_from_email (self, **kwargs) :
         """Save attachments of email message on given ``email_index`` (overwrite if already exists).
 
         Arguments:
@@ -497,7 +497,7 @@ class ImapLibrary2(object):
             defaults to current directory if None
 
         Examples:
-        | Get Attachments Email | INDEX | C:\\Users\\thuchet\\test
+        | Get Attachments Email | INDEX | C:\\Users\\User\\test
         """
         email_index = kwargs.pop('email_index', None)
         target_folder = kwargs.pop('target_folder', None)
