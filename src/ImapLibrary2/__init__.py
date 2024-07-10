@@ -422,16 +422,18 @@ class ImapLibrary2(object):
 
     def _check_emails(self, **kwargs):
         """Returns filtered email."""
-        folder = '"%s"' % str(kwargs.pop('folder', self.FOLDER))
-        criteria = self._criteria(**kwargs)
+        search_cmd = ["search", None]
+        search_cmd += self._criteria(**kwargs)
         # Calling select before each search is necessary with gmail
+        folder = '"%s"' % str(kwargs.pop('folder', self.FOLDER))
         status, data = self._imap.select(folder)
         if status != 'OK':
             raise Exception("imap.select error: %s, %s" % (status, data))
         subject = kwargs.pop('subject', None)
         if subject:
             self._imap.literal = subject.encode("utf-8")
-        typ, msgnums = self._imap.uid('search', None, *criteria)
+            search_cmd = search_cmd[:1] + ['CHARSET', 'UTF-8'] + search_cmd[2:]
+        typ, msgnums = self._imap.uid(*search_cmd)
         if typ != 'OK':
             raise Exception('imap.search error: %s, %s, criteria=%s' % (typ, msgnums, criteria))
         if msgnums[0] is not None:
