@@ -24,6 +24,8 @@ from email.header import decode_header
 from imaplib import IMAP4, IMAP4_SSL
 from re import findall
 from time import sleep, time
+from datetime import datetime
+from babel.dates import format_datetime
 
 try:
     from urllib.request import urlopen
@@ -368,6 +370,8 @@ class ImapLibrary2(object):
                       (Default None)
         - ``subject``: Email subject. (Default None)
         - ``text``: Email body text. (Default None)
+        - ``since``: Messages whose internal date is within or later than the specified date. (Default None)
+        - ``before``: Messages whose internal date is earlier than the specified date. (Default None)
         - ``timeout``: The maximum value in seconds to wait for email message to arrived.
                        (Default 60)
         - ``folder``: The email folder to check for emails. (Default INBOX)
@@ -446,6 +450,7 @@ class ImapLibrary2(object):
     @staticmethod
     def _criteria(**kwargs):
         """Returns email criteria."""
+        date_format = "%d-%b-%Y" # DD-Mon-YYYY e.g., 3-Mar-2014
         criteria = []
         recipient = kwargs.pop('recipient', kwargs.pop('to_email', kwargs.pop('toEmail', None)))
         sender = kwargs.pop('sender', kwargs.pop('from_email', kwargs.pop('fromEmail', None)))
@@ -453,6 +458,8 @@ class ImapLibrary2(object):
         status = kwargs.pop('status', None)
         subject = kwargs.pop('subject', None)
         text = kwargs.pop('text', None)
+        since = kwargs.pop('since', None)
+        before = kwargs.pop('before', None)
         if recipient:
             criteria += ['TO', '"%s"' % recipient]
         if sender:
@@ -461,6 +468,14 @@ class ImapLibrary2(object):
             criteria += ['CC', '"%s"' % cc]
         if text:
             criteria += ['TEXT', '"%s"' % text]
+        if since:
+            since_date = datetime.strptime(since, date_format)
+            since_date = format_datetime(since_date, "d-MMM-yyyy", locale='en') # Convert to English format for IMAP 
+            criteria += ['SINCE', '"%s"' % since_date]
+        if before:
+            before_date = datetime.strptime(before, date_format)
+            before_date = format_datetime(before_date, "d-MMM-yyyy", locale='en') # Convert to English format for IMAP 
+            criteria += ['BEFORE', '"%s"' % before_date]
         if status:
             criteria += [status]
         if not criteria:
