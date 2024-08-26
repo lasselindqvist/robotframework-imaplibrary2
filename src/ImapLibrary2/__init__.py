@@ -34,7 +34,7 @@ except ImportError:
     from urllib2 import urlopen
 from builtins import str as ustr
 from ImapLibrary2.version import get_version
-from ImapLibrary2.imap_proxy import IMAP4Proxy, IMAP4SSLProxy
+#from ImapLibrary2.imap_proxy import IMAP4Proxy, IMAP4SSLProxy
 import os.path
 __version__ = get_version()
 
@@ -115,7 +115,7 @@ class ImapLibrary2(object):
         """Delete email on given ``email_index``.
 
         Arguments:
-        - ``email_index``: An email index to identity the email message.
+        - ``email_index:`` An email index to identity the email message.
 
         Examples:
         | Delete Email | INDEX |
@@ -128,7 +128,7 @@ class ImapLibrary2(object):
         otherwise returns the body text.
 
         Arguments:
-        - ``email_index``: An email index to identity the email message.
+        - ``email_index:`` An email index to identity the email message.
 
         Examples:
         | Get Email Body | INDEX |
@@ -154,7 +154,7 @@ class ImapLibrary2(object):
         """Returns all links found in the email body from given ``email_index``.
 
         Arguments:
-        - ``email_index``: An email index to identity the email message.
+        - ``email_index:`` An email index to identity the email message.
 
         Examples:
         | Get Links From Email | INDEX |
@@ -167,8 +167,8 @@ class ImapLibrary2(object):
         from given ``email_index``.
 
         Arguments:
-        - ``email_index``: An email index to identity the email message.
-        - ``pattern``: It consists of one or more character literals, operators, or constructs.
+        - ``email_index:`` An email index to identity the email message.
+        - ``pattern:`` It consists of one or more character literals, operators, or constructs.
 
         Examples:
         | Get Matches From Email | INDEX | PATTERN |
@@ -188,7 +188,7 @@ class ImapLibrary2(object):
         """Returns the value of given header ``field`` name.
 
         Arguments:
-        - ``field``: A header field name: ``From``, ``To``, ``Subject``, ``Date``, etc.
+        - ``field:`` A header field name: ``From``, ``To``, ``Subject``, ``Date``, etc.
                      All available header field names of an email message can be found by running
                      `Get Multipart Field Names` keyword.
 
@@ -209,7 +209,7 @@ class ImapLibrary2(object):
         """Returns the payload of current part of selected multipart email message.
 
         Arguments:
-        - ``decode``: An indicator flag to decode the email message. (Default False)
+        - ``decode:`` An indicator flag to decode the email message. (Default False)
 
         Examples:
         | Get Multipart Payload |
@@ -241,7 +241,7 @@ class ImapLibrary2(object):
         """Mark email on given ``email_index`` as read.
 
         Arguments:
-        - ``email_index``: An email index to identity the email message.
+        - ``email_index:`` An email index to identity the email message.
 
         Examples:
         | Mark Email As Read | INDEX |
@@ -250,11 +250,12 @@ class ImapLibrary2(object):
 
     def open_link_from_email(self, email_index, link_index=0):
         """Open link URL from given ``link_index`` in email message body of given ``email_index``.
+        
         Returns HTML content of opened link URL.
 
         Arguments:
-        - ``email_index``: An email index to identity the email message.
-        - ``link_index``: The link index to be open. (Default 0)
+        - ``email_index:`` An email index to identity the email message.
+        - ``link_index:`` The link index to be open. (Default 0)
 
         Examples:
         | Open Link From Email |
@@ -283,17 +284,17 @@ class ImapLibrary2(object):
         """Open IMAP email client session to given ``host`` with given ``user`` and ``password``.
 
         Arguments:
-        - ``host``: The IMAP host server. (Default None)
-        - ``is_secure``: An indicator flag to connect to IMAP host securely or not. (Default True)
-        - ``password``: The plaintext password to be use to authenticate mailbox on given ``host``.
-        - ``port``: The IMAP port number. (Default None)
-        - ``user``: The username to be use to authenticate mailbox on given ``host``.
-        - ``folder``: The email folder to read from. (Default INBOX)
-        - ``proxy_host``: Proxy host to connect via. (Default None)
-        - ``proxy_port``: Proxy port to connect via. (Default None)
-        - ``proxy_user``: Proxy username to connect via. (Default None)
-        - ``proxy_password``: Proxy password to connect via. (Default None)
-        - ``proxy_type``: Proxy type to connect via. Available values are: http, socks4, socks5 (Default http)
+        - ``host:`` The IMAP host server. (Default None)
+        - ``is_secure:`` An indicator flag to connect to IMAP host securely or not. (Default True)
+        - ``password:`` The plaintext password to be use to authenticate mailbox on given ``host``.
+        - ``port:`` The IMAP port number. (Default None)
+        - ``user:`` The username to be use to authenticate mailbox on given ``host``.
+        - ``folder:`` The email folder to read from. (Default INBOX)
+        - ``proxy_host:`` Proxy host to connect via. (Default None)
+        - ``proxy_port:`` Proxy port to connect via. (Default None)
+        - ``proxy_user:`` Proxy username to connect via. (Default None)
+        - ``proxy_password:`` Proxy password to connect via. (Default None)
+        - ``proxy_type:`` Proxy type to connect via. Available values are: http, socks4, socks5 (Default http)
 
         Examples:
         | Open Mailbox | host=HOST | user=USER | password=SECRET |
@@ -334,12 +335,13 @@ class ImapLibrary2(object):
 
     def open_mailbox_oauth(self, **kwargs):
         """Open IMAP email client session to oauth provider with given ``user`` and ``access_token``.
+        
         Arguments:
-        - ``host``: The IMAP host server. (Default None)
-        - ``debug_level``: An integer from 0 to 5 where 0 disables debug output and 5 enables full output with wire logging and parsing logs. (Default 0)
-        - ``folder``: The email folder to read from. (Default INBOX)
-        - ``user``: The username (email address) of the account to authenticate.
-        - ``access_token``: An OAuth2 access token. Must not be base64-encoded, since imaplib does its own base64-encoding.
+        - ``host:`` The IMAP host server. (Default None)
+        - ``debug_level:`` An integer from 0 to 5 where 0 disables debug output and 5 enables full output with wire logging and parsing logs. (Default 0)
+        - ``folder:`` The email folder to read from. (Default INBOX)
+        - ``user:`` The username (email address) of the account to authenticate.
+        - ``access_token:`` An OAuth2 access token. Must not be base64-encoded, since imaplib does its own base64-encoding.
 
         Examples:
         | Open Mailbox | host=HOST | debug_level=2 | user=email@gmail.com | access_token=SECRET |
@@ -358,24 +360,30 @@ class ImapLibrary2(object):
         self._init_multipart_walk()
 
     def wait_for_email(self, **kwargs):
-        """Wait for email message to arrived base on any given filter criteria.
+        """Wait for email message to arrived based on any given filter criteria.
         Returns email index of the latest email message received.
 
         Arguments:
-        - ``poll_frequency``: The delay value in seconds to retry the mailbox check. (Default 10)
-        - ``recipient``: Email recipient. (Default None)
-        - ``sender``: Email sender. (Default None)
-        - ``status``: A mailbox status filter: ``MESSAGES``, ``RECENT``, ``UIDNEXT``,
+        - ``poll_frequency:`` The delay value in seconds to retry the mailbox check. (Default 10)
+        - ``recipient:`` Email recipient. (Default None)
+        - ``sender:`` Email sender. (Default None)
+        - ``status:`` A mailbox status filter: ``MESSAGES``, ``RECENT``, ``UIDNEXT``,
                       ``UIDVALIDITY``, and ``UNSEEN``.
                       Please see [https://goo.gl/3KKHoY|Mailbox Status] for more information.
                       (Default None)
-        - ``subject``: Email subject. (Default None)
-        - ``text``: Email body text. (Default None)
-        - ``since``: Messages whose internal date is within or later than the specified date. (Default None)
-        - ``before``: Messages whose internal date is earlier than the specified date. (Default None)
-        - ``timeout``: The maximum value in seconds to wait for email message to arrived.
+        - ``subject:`` Email subject. (Default None)
+        - ``utf-8:`` Whether or not to use UTF-8 encoding for the IMAP search criteria. (Default False).
+                     Not all email servers support UTF-8 for IMAP, so this is by default set to False.
+        - ``text:`` Email body text. (Default None)
+        - ``since:`` Messages whose internal date is within or later than the specified date. (Default None)
+        - ``before:`` Messages whose internal date is earlier than the specified date. (Default None)
+        - ``on:`` Messages whose internal date is within the specified date. (Default None)        
+        - ``sentsince:`` Messages whose [RFC-822] Date: header is within or later than the specified date. (Default None)
+        - ``sentbefore:`` Messages whose [RFC-822] Date: header is earlier than the specified date. (Default None)
+        - ``senton:`` Messages whose [RFC-822] Date: header is within the specified date. (Default None)                
+        - ``timeout:`` The maximum value in seconds to wait for email message to arrived.
                        (Default 60)
-        - ``folder``: The email folder to check for emails. (Default INBOX)
+        - ``folder:`` The email folder to check for emails. (Default INBOX)
 
         Examples:
         | Wait For Email | sender=noreply@domain.com |
@@ -400,12 +408,13 @@ class ImapLibrary2(object):
 
     def walk_multipart_email(self, email_index):
         """Returns total parts of a multipart email message on given ``email_index``.
+        
         Email message is cache internally to be used by other multipart keywords:
         `Get Multipart Content Type`, `Get Multipart Field`, `Get Multipart Field Names`,
         `Get Multipart Field`, and `Get Multipart Payload`.
 
         Arguments:
-        - ``email_index``: An email index to identity the email message.
+        - ``email_index:`` An email index to identity the email message.
 
         Examples:
         | Walk Multipart Email | INDEX |
@@ -423,10 +432,32 @@ class ImapLibrary2(object):
         return len(self._mp_msg.get_payload())
 
     def get_email_count(self, **kwargs):
+        """Returns immediately the number of found emails (doesn't wait for mail).
+        
+        Arguments:
+        - ``recipient:`` Email recipient. (Default None)
+        - ``sender:`` Email sender. (Default None)
+        - ``status:`` A mailbox status filter: ``MESSAGES``, ``RECENT``, ``UIDNEXT``,
+                      ``UIDVALIDITY``, and ``UNSEEN``.
+                      Please see [https://goo.gl/3KKHoY|Mailbox Status] for more information.
+                      (Default None)
+        - ``subject:`` Email subject. (Default None)
+        - ``utf-8:`` Whether or not to use UTF-8 encoding for the IMAP search criteria. (Default False).
+                     Not all email servers support UTF-8 for IMAP, so this is by default set to False.
+        - ``text:`` Email body text. (Default None)
+        - ``since:`` Messages whose internal date is within or later than the specified date. (Default None)
+        - ``before:`` Messages whose internal date is earlier than the specified date. (Default None)
+        - ``on:`` Messages whose internal date is within the specified date. (Default None)        
+        - ``sentsince:`` Messages whose [RFC-822] Date: header is within or later than the specified date. (Default None)
+        - ``sentbefore:`` Messages whose [RFC-822] Date: header is earlier than the specified date. (Default None)
+        - ``senton:`` Messages whose [RFC-822] Date: header is within the specified date. (Default None)                
+        - ``folder:`` The email folder to check for emails. (Default INBOX)
+        """        
         return len(self._check_emails(**kwargs))
 
     def _check_emails(self, **kwargs):
         """Returns filtered email."""
+        utf_8 = (kwargs.pop('utf-8', 'false'))
         search_cmd = ["search", None]
         search_cmd += self._criteria(**kwargs)
         # Calling select before each search is necessary with gmail
@@ -437,10 +468,11 @@ class ImapLibrary2(object):
         subject = kwargs.pop('subject', None)
         if subject:
             self._imap.literal = subject.encode("utf-8")
-            search_cmd = search_cmd[:1] + ['CHARSET', 'UTF-8'] + search_cmd[2:]
+            if utf_8.lower() == 'true':
+                search_cmd = search_cmd[:1] + ['CHARSET', 'UTF-8'] + search_cmd[2:]
         typ, msgnums = self._imap.uid(*search_cmd)
         if typ != 'OK':
-            raise Exception('imap.search error: %s, %s, criteria=%s' % (typ, msgnums, criteria))
+            raise Exception('imap.search error: %s, %s, criteria=%s' % (typ, msgnums, search_cmd))
         if msgnums[0] is not None:
             if type(msgnums[0]) != bytes:
                 return msgnums[0]
@@ -462,6 +494,10 @@ class ImapLibrary2(object):
         text = kwargs.pop('text', None)
         since = kwargs.pop('since', None)
         before = kwargs.pop('before', None)
+        on = kwargs.pop('on', None)
+        sentsince = kwargs.pop('sentsince', None)
+        sentbefore = kwargs.pop('sentbefore', None)
+        senton = kwargs.pop('senton', None)
         if recipient:
             criteria += ['TO', '"%s"' % recipient]
         if sender:
@@ -472,18 +508,28 @@ class ImapLibrary2(object):
             criteria += ['TEXT', '"%s"' % text]
         if since:
             since_date = datetime.strptime(since, date_format)
-            if os.name == "posix":
-                locale.setlocale(locale.LC_ALL, "en_US.UTF-8")
-            else:
-                locale.setlocale(locale.LC_ALL, "English")
+            ImapLibrary2._set_locale_to_english()
             criteria += ['SINCE', '"%s"' % since_date.strftime(date_format)]
         if before:
             before_date = datetime.strptime(before, date_format)
-            if os.name == "posix":
-                locale.setlocale(locale.LC_ALL, "en_US.UTF-8")
-            else:
-                locale.setlocale(locale.LC_ALL, "English")
+            ImapLibrary2._set_locale_to_english()
             criteria += ['BEFORE', '"%s"' % before_date.strftime(date_format)]
+        if on:
+            on_date = datetime.strptime(on, date_format)
+            ImapLibrary2._set_locale_to_english()
+            criteria += ['ON', '"%s"' % on_date.strftime(date_format)]
+        if sentsince:
+            sentsince_date = datetime.strptime(sentsince, date_format)
+            ImapLibrary2._set_locale_to_english()
+            criteria += ['SENTSINCE', '"%s"' % sentsince_date.strftime(date_format)]
+        if sentbefore:
+            sentbefore_date = datetime.strptime(sentbefore, date_format)
+            ImapLibrary2._set_locale_to_english()
+            criteria += ['SENTBEFORE', '"%s"' % sentbefore_date.strftime(date_format)]
+        if senton:
+            senton_date = datetime.strptime(senton, date_format)
+            ImapLibrary2._set_locale_to_english()
+            criteria += ['SENTON', '"%s"' % senton_date.strftime(date_format)]    
         if status:
             criteria += [status]
         if not criteria:
@@ -492,6 +538,13 @@ class ImapLibrary2(object):
             criteria += ['SUBJECT']
         locale.setlocale(locale.LC_ALL, lc)
         return criteria
+    
+    @staticmethod
+    def _set_locale_to_english():
+        if os.name == "posix":
+            locale.setlocale(locale.LC_ALL, "en_US.UTF-8")
+        else:
+            locale.setlocale(locale.LC_ALL, "English")        
 
     def _init_multipart_walk(self):
         """Initialize multipart email walk."""
@@ -518,8 +571,8 @@ class ImapLibrary2(object):
         """Save attachments of email message on given ``email_index`` (overwrite if already exists).
 
         Arguments:
-        - ``email_index``: An email index to identity the email message.
-        - ``target_folder`` : local folder for saving attachments to (needs to exist),
+        - ``email_index:`` An email index to identity the email message.
+        - ``target_folder:`` local folder for saving attachments to (needs to exist),
             defaults to current directory if None
 
         Examples:
