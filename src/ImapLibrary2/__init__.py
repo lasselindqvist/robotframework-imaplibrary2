@@ -34,7 +34,7 @@ except ImportError:
     from urllib2 import urlopen
 from builtins import str as ustr
 from ImapLibrary2.version import get_version
-#from ImapLibrary2.imap_proxy import IMAP4Proxy, IMAP4SSLProxy
+from ImapLibrary2.imap_proxy import IMAP4Proxy, IMAP4SSLProxy
 import os.path
 __version__ = get_version()
 
