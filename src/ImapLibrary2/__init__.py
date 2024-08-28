@@ -510,33 +510,38 @@ class ImapLibrary2(object):
             since_date = datetime.strptime(since, date_format)
             ImapLibrary2._set_locale_to_english()
             criteria += ['SINCE', '"%s"' % since_date.strftime(date_format)]
+            locale.setlocale(locale.LC_ALL, lc)
         if before:
             before_date = datetime.strptime(before, date_format)
             ImapLibrary2._set_locale_to_english()
             criteria += ['BEFORE', '"%s"' % before_date.strftime(date_format)]
+            locale.setlocale(locale.LC_ALL, lc)
         if on:
             on_date = datetime.strptime(on, date_format)
             ImapLibrary2._set_locale_to_english()
             criteria += ['ON', '"%s"' % on_date.strftime(date_format)]
+            locale.setlocale(locale.LC_ALL, lc)
         if sentsince:
             sentsince_date = datetime.strptime(sentsince, date_format)
             ImapLibrary2._set_locale_to_english()
             criteria += ['SENTSINCE', '"%s"' % sentsince_date.strftime(date_format)]
+            locale.setlocale(locale.LC_ALL, lc)
         if sentbefore:
             sentbefore_date = datetime.strptime(sentbefore, date_format)
             ImapLibrary2._set_locale_to_english()
             criteria += ['SENTBEFORE', '"%s"' % sentbefore_date.strftime(date_format)]
+            locale.setlocale(locale.LC_ALL, lc)
         if senton:
             senton_date = datetime.strptime(senton, date_format)
             ImapLibrary2._set_locale_to_english()
-            criteria += ['SENTON', '"%s"' % senton_date.strftime(date_format)]    
+            criteria += ['SENTON', '"%s"' % senton_date.strftime(date_format)]
+            locale.setlocale(locale.LC_ALL, lc)
         if status:
             criteria += [status]
         if not criteria:
             criteria = ['UNSEEN']
         if subject:
             criteria += ['SUBJECT']
-        locale.setlocale(locale.LC_ALL, lc)
         return criteria
     
     @staticmethod
