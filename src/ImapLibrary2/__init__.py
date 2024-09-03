@@ -22,7 +22,7 @@ IMAP Library - a IMAP email testing library.
 from email import message_from_bytes
 from email.header import decode_header
 from imaplib import IMAP4, IMAP4_SSL
-from re import findall
+from re import findall, sub
 from time import sleep, time
 from datetime import datetime
 import locale
@@ -575,6 +575,8 @@ class ImapLibrary2(object):
     def get_attachments_from_email (self, **kwargs) :
         """Save attachments of email message on given ``email_index`` (overwrite if already exists).
 
+        Returns a list of file paths to the saved attachments.
+
         Arguments:
         - ``email_index:`` An email index to identity the email message.
         - ``target_folder:`` local folder for saving attachments to (needs to exist),
@@ -593,14 +595,19 @@ class ImapLibrary2(object):
             target_folder = './'
 
         for part in msg.walk():
-            content_maintype = part.get_content_maintype()
             filename = None
-            if content_maintype != "multipart":
-                filename = part.get_filename()
+            if part.get_content_maintype() != 'multipart' and part.get('Content-Disposition') is not None:
+                filename, encoding = decode_header(part.get_filename())[0]
                 if filename :
+                    if encoding:
+                        filename = filename.decode(encoding)
+                    filename = self._get_valid_filename(filename)
                     filepath = os.path.join(target_folder, filename)
                     fp = open(filepath, 'wb')
                     fp.write(part.get_payload(decode=True))
                     fp.close()
                     attachments.append(str(filepath))
         return attachments
+    
+    def _get_valid_filename(self, s):
+        return sub(r'[\\/:*?\"<>|]', '', s)
