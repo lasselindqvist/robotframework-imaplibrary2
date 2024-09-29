@@ -35,7 +35,7 @@ class IMAP4Proxy(IMAP4):
 
         IMAP4.__init__(self, host, port)
 
-    def _create_socket(self):
+    def _create_socket(self, timeout=None):
         return create_connection((self.host, self.port), proxy_type=self.proxy_type, proxy_addr=self.proxy_host,
                                  proxy_port=self.proxy_port, proxy_rdns=self.rdns, proxy_username=self.proxy_username,
                                  proxy_password=self.proxy_password)
@@ -65,10 +65,10 @@ class IMAP4SSLProxy(IMAP4Proxy):
                             proxy_host=proxy_host, proxy_port=proxy_port, proxy_username=proxy_username, proxy_password=proxy_password,
                             rdns=rdns, username=username, password=password, proxy_type=proxy_type)
 
-    def _create_socket(self):
-        sock = IMAP4Proxy._create_socket(self)
+    def _create_socket(self, timeout=None):
+        sock = IMAP4Proxy._create_socket(self, timeout=None)
         server_hostname = self.host if ssl.HAS_SNI else None
         return self.ssl_context.wrap_socket(sock, server_hostname=server_hostname)
 
-    def open(self, host='', port=IMAP4_PORT):
-        IMAP4Proxy.open(self, host, port)
+    def open(self, host='', port=IMAP4_PORT, timeout=None):
+        IMAP4Proxy.open(self, host, port, timeout=None)
