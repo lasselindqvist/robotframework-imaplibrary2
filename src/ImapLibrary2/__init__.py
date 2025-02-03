@@ -184,6 +184,14 @@ class ImapLibrary2(object):
         """
         return self._part.get_content_type()
 
+    def get_multipart_param(self, param:str):
+        """Returns the content type parameter ``param`` of current part of selected multipart email message.
+
+        Examples:
+        | Get Multipart Param |
+        """
+        return self._part.get_param(param)
+
     def get_multipart_field(self, field):
         """Returns the value of given header ``field`` name.
 
