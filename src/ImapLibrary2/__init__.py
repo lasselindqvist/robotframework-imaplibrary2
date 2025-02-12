@@ -184,6 +184,20 @@ class ImapLibrary2(object):
         """
         return self._part.get_content_type()
 
+    def get_multipart_param(self, param:str, header='content-type'):
+        """Return the value of the ``Content-Type`` header’s parameter ``param`` as a string.
+        If the message has no ``Content-Type`` header or if there is no such parameter, then
+        ``None`` is returned.
+
+        Optional ``header`` if given, specifies the message header to use instead of ``Content-Type``
+
+        Examples:
+        | Get Multipart Param | charset   |                            |
+        | Get Multipart Param | name      | header=Content-Type        |
+        | Get Multipart Param | filename  | header=Content-Disposition |
+        """
+        return self._part.get_param(param, header=header)
+
     def get_multipart_field(self, field):
         """Returns the value of given header ``field`` name.
 
