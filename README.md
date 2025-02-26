@@ -188,10 +188,14 @@ make test
 Deploying to Pypi
 ------------
 
+Delete old dist directory or empty it from old files.
+
 ``` {.sourceCode .console}
 python setup.py sdist bdist_wheel
 twine upload dist/*
 ```
+
+If upload fails to HTTP 400 "Only one sdist may be uploaded per release.", delete the .zip file from dist directory and only upload the robotframework_imaplibrary2-x.x.xx.tar.gz
 
 Contributing
 ------------
